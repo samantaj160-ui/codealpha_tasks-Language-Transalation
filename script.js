@@ -1,25 +1,58 @@
-async function translateText(){
+async function translateText() {
 
-    // Get input text
-    let text = document.getElementById("inputText").value;
-
-    // Get source language
+    let text = document.getElementById("inputText").value.trim();
     let source = document.getElementById("sourceLang").value;
-
-    // Get target language
     let target = document.getElementById("targetLang").value;
+    let output = document.getElementById("outputText");
 
-    // Google Translate API URL
-    let url =
-    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${text}`;
+    if(text === ""){
+        alert("Please enter text.");
+        return;
+    }
 
-    // Fetch translation
-    let response = await fetch(url);
+    output.value = "Translating...";
 
-    // Convert response into JSON
-    let data = await response.json();
+    try{
 
-    // Display translated text
-    document.getElementById("outputText").value = data[0][0][0];
+        let url =
+        `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
 
+        let response = await fetch(url);
+        let data = await response.json();
+
+        output.value = data[0][0][0];
+
+    }
+    catch(error){
+
+        output.value =
+        "Translation failed. Please check internet connection.";
+
+    }
+}
+
+function copyText(){
+
+    let text =
+    document.getElementById("outputText").value;
+
+    navigator.clipboard.writeText(text);
+
+    alert("Translation copied!");
+}
+
+function speakText(){
+
+    let text =
+    document.getElementById("outputText").value;
+
+    if(text===""){
+        alert("Nothing to speak.");
+        return;
+    }
+
+    let speech =
+    new SpeechSynthesisUtterance(text);
+
+    window.speechSynthesis.speak(speech);
 }
