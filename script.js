@@ -14,8 +14,8 @@ async function translateText() {
 
     try{
 
-        let url =
-        `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
+       let url =
+`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
 
         let response = await fetch(url);
         let data = await response.json();
