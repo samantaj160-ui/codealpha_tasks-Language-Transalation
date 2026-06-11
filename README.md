@@ -67,7 +67,3 @@ Language-Translator/
 
 This project is created for learning API integration and frontend
 development.
-
-## Author
-
-Jit Samanta
